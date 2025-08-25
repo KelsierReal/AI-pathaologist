@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Digital Pathologist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #003366;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: teal;
+        }
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: teal;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #008080;
+        }
+        #results {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid teal;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Powered Digital Pathologist</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <input type="submit" value="Upload and Analyze">
+    </form>
+    {% if result %}
+    <div id="results">
+        {{ result }}
+    </div>
+    {% endif %}
+</body>
+</html>

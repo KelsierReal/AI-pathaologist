@@ -4,11 +4,11 @@ import os
 
 app = Flask(__name__)
 
-# Predefined mappings based on filename
+# Predefined mappings based on base filename (without extension)
 known_results = {
-    'slide1.png': 'Plasmodium Falciparum detected, Confidence: 92%, Severity: High.',
-    'slide2.png': 'Plasmodium Vivax detected, Confidence: 87%, Severity: Moderate.',
-    'slide3.png': 'No malaria detected, Confidence: 95%, Status: Clear.'
+    'slide1': 'Plasmodium Falciparum detected, Confidence: 92%, Severity: High.',
+    'slide2': 'Plasmodium Vivax detected, Confidence: 87%, Severity: Moderate.',
+    'slide3': 'No malaria detected, Confidence: 95%, Status: Clear.'
 }
 
 @app.route('/', methods=['GET'])
@@ -23,8 +23,13 @@ def upload():
     file = request.files['image']
     filename = file.filename
 
-    # Get Python result
-    py_result = known_results.get(filename, 'No diagnostic data available.')
+    # Extract base filename without extension
+    base_filename, ext = os.path.splitext(filename)
+    if ext.lower() not in ['.png', '.jpg', '.jpeg']:
+        return render_template('index.html', result='Invalid file format. Please upload a .png or .jpg file.')
+
+    # Get Python result based on base filename
+    py_result = known_results.get(base_filename, 'No diagnostic data available.')
 
     # Run C program (assume compiled to ./analysis)
     c_output = ''
